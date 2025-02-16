@@ -1,0 +1,54 @@
+.weather {
+    text-align: center;
+    background-color: #537692;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-size: calc(10px + 2vmin);
+    color: #eef3f9;
+}
+
+.clothes-content {
+    width: 80%;
+    padding-bottom: 2rem;
+}
+
+.info {
+    display: flex ;
+    align-items: center;
+}
+
+span {
+    white-space: pre-wrap;
+}
+
+.button-toggle {
+    margin-left: 1.25rem; 
+    padding: 0.5rem 1rem;
+    background:  #b3cde4; 
+    color: #001b2e;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    border-radius: 8px; 
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    transition: all 0.3s ease; 
+}
+  
+.button-toggle:hover {
+    background: #85a0b8; 
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+  
+.button-toggle:focus {
+    outline: none;
+    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.5);
+}
+
+img {
+    background: transparent;
+}
+  
