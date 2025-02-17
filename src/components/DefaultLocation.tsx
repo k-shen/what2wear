@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+
 import { getCityFromCoordinate } from '../service/getLocation';
 
 const DefaultLocation = ({ longitude, latitude, onLocationDetermined }) => {

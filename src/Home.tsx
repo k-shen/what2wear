@@ -1,13 +1,16 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import DefaultLocation from './components/DefaultLocation';
+
 import Button from './components/Button';
-import { getDefaultLocation, getCityFromCoordinate } from './service/getLocation';
-import { getWeather } from './service/getWeather';
-import './styles/home.css';
+import DefaultLocation from './components/DefaultLocation';
 import LocationInput from './components/LocationInput';
 import Time from './components/Time';
 import { BASE_URL, W2W_BUTTON_TEXT } from './components/constants';
+
+import { getDefaultLocation, getCityFromCoordinate } from './service/getLocation';
+import { getWeather } from './service/getWeather';
+
+import './styles/home.css';
 
 function Home() {
     const navigate = useNavigate();
@@ -30,7 +33,7 @@ function Home() {
         try {
             const response = await getWeather(location.latitude, location.longitude);
             const city = await getCityFromCoordinate(location.latitude, location.longitude);
-            navigate(BASE_URL + '/weather', {
+            navigate(BASE_URL + '/result', {
                 state: { weatherData: response, city }
             });
         } catch (error) {

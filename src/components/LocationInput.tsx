@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+
 import { getInputLocation } from '../service/getLocation';
 import '../styles/location.css';
 

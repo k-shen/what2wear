@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+
 import Button from './components/Button';
 import ClothesBlock from './components/ClothesBlock';
 import { BASE_URL, OPENWEATHERMAP_ICON_URL_PREFIX } from './components/constants';
-import './styles/weather.css';
 import RefreshButton from './components/RefreshButton';
+
+import './styles/weather.css';
 
 const Result = () => {
     const location = useLocation();
@@ -55,7 +57,8 @@ const Result = () => {
             {weatherData ? (
                 <div>
                     <h1>
-                        {' '}{city}{' '}
+                        {' '}
+                        {city}{' '}
                         {weatherIcon ? (
                             <img
                                 src={OPENWEATHERMAP_ICON_URL_PREFIX + weatherIcon + '@2x.png'}
@@ -72,7 +75,7 @@ const Result = () => {
 
                         {getTemperature(lowTemperature) && getTemperature(highTemperature) ? (
                             <span>
-                                ({getTemperature(lowTemperature)} ~ {' '}
+                                ({getTemperature(lowTemperature)} ~{' '}
                                 {getTemperature(highTemperature)})
                             </span>
                         ) : null}

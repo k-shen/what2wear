@@ -1,8 +1,8 @@
 import React, { Fragment, memo } from 'react';
 
-import { min } from '../service/utils.js';
 import ClothesFaceout from './ClothesFaceout';
 import { Clothes, TOPS, BOTTOMS, COMFORT, UNLAYERABLE_TOP_INDICIES } from './constants';
+import { min } from '../service/utils.js';
 
 import '../styles/clothes.css';
 

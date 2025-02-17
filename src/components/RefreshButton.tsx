@@ -1,4 +1,5 @@
 import React from 'react';
+
 import refresh from '../styles/refresh.svg';
 
 const RefreshButton = ({ action, text }) => {
