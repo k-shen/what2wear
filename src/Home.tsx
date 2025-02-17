@@ -2,11 +2,10 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import Button from './components/Button';
+import { BASE_URL, W2W_BUTTON_TEXT } from './components/constants';
 import DefaultLocation from './components/DefaultLocation';
 import LocationInput from './components/LocationInput';
 import Time from './components/Time';
-import { BASE_URL, W2W_BUTTON_TEXT } from './components/constants';
-
 import { getDefaultLocation, getCityFromCoordinate } from './service/getLocation';
 import { getWeather } from './service/getWeather';
 

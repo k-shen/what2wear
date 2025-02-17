@@ -11,14 +11,13 @@ export interface Clothes {
 export const TOPS: Clothes[] = [
     { name: 'Short Sleeve Shirt', warmth: 4 },
     { name: 'Long Sleeve Shirt', warmth: 8 },
-    { name: 'Hoodie/Sweatshirt', warmth: 14 },
-    { name: 'Light Jacket', warmth: 18 },
+    { name: 'Hoodie/Sweatshirt', warmth: 16 },
     { name: 'Jacket', warmth: 25 },
     { name: 'Coat', warmth: 37 },
-    { name: 'Heavy Coat', warmth: 45 }
+    { name: 'Heavy Coat', warmth: 49 }
 ];
 
-export const UNLAYERABLE_TOP_INDICIES = [6, 5, 4, 3];
+export const UNLAYERABLE_TOP_INDICIES = [5, 4, 3];
 
 export const BOTTOMS: Clothes[] = [
     { name: 'Shorts', warmth: 3 },

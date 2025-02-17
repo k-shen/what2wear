@@ -2,7 +2,7 @@ import React, { Fragment, memo } from 'react';
 
 import ClothesFaceout from './ClothesFaceout';
 import { Clothes, TOPS, BOTTOMS, COMFORT, UNLAYERABLE_TOP_INDICIES } from './constants';
-import { min } from '../service/utils.js';
+import { min, maxWarmth } from '../service/utils.js';
 
 import '../styles/clothes.css';
 
@@ -23,7 +23,6 @@ const ClothesBlock = memo(
             const difference = COMFORT - min(feelsLikeTemperature, lowTemperature);
             const differences = [difference, difference - 5, difference + 5];
 
-            // Map the result for each difference in a single loop
             return differences.map((diff) => getOptions(diff).map((index) => TOPS[index]));
         };
 
@@ -31,7 +30,10 @@ const ClothesBlock = memo(
             const possibleLayers: number[][] = [];
 
             const backtrack = (startIdx: number, currentIndices: number[], currentSum: number) => {
-                if (Math.abs(currentSum - temperatureDifference) <= 2) {
+                if (
+                    Math.abs(currentSum - temperatureDifference) <= 2 ||
+                    currentSum >= maxWarmth()
+                ) {
                     possibleLayers.push([...currentIndices]);
                 }
 
@@ -41,29 +43,53 @@ const ClothesBlock = memo(
             };
 
             backtrack(0, [], 0);
-            return possibleLayers[Math.floor(Math.random() * possibleLayers.length)];
+            return possibleLayers[Math.floor(Math.random() * possibleLayers.length)].sort();
         };
 
         const getOptions = (temperatureDifference) => {
-            let options = getLayers(temperatureDifference);
-
-            // Handle unlayerable items logic
-            const unlayerableItems = options.filter((num) =>
-                UNLAYERABLE_TOP_INDICIES.includes(num)
-            );
-
-            if (unlayerableItems.length > 1) {
-                const heaviestTop = Math.max(...unlayerableItems);
-                options = options.filter(
-                    (num) =>
-                        num < UNLAYERABLE_TOP_INDICIES[0] ||
-                        num > UNLAYERABLE_TOP_INDICIES.slice(-1)[0] ||
-                        num === heaviestTop
+            const removeUnlayerables = (options: number[]) => {
+                const unlayerableItems = options.filter((num) =>
+                    UNLAYERABLE_TOP_INDICIES.includes(num)
                 );
 
-                // Add back a hoodie (layerable)
-                options.push(3);
-            }
+                if (unlayerableItems.length > 1) {
+                    // Only keep the heaviest layers
+                    const heaviestTop = Math.max(...unlayerableItems);
+                    options = options.filter(
+                        (num) =>
+                            num < UNLAYERABLE_TOP_INDICIES[UNLAYERABLE_TOP_INDICIES.length - 1] ||
+                            num === heaviestTop
+                    );
+
+                    // Add back the warmest layerable
+                    options.push(UNLAYERABLE_TOP_INDICIES[UNLAYERABLE_TOP_INDICIES.length - 1] - 1);
+                }
+
+                return options.sort();
+            };
+
+            const removeDuplicates = (options: number[]) => {
+                const counts = new Map();
+                const uniqueSet = new Set(options);
+
+                // Count occurrences
+                options.forEach((num) => {
+                    counts.set(num, (counts.get(num) || 0) + 1);
+                });
+
+                // Add back the warmest option
+                counts.forEach((count, num) => {
+                    if (count > 1) {
+                        uniqueSet.add(num - 1);
+                    }
+                });
+
+                return Array.from(uniqueSet).sort();
+            };
+
+            let options = getLayers(temperatureDifference);
+            options = removeUnlayerables(options);
+            options = removeDuplicates(options);
 
             // Ensure short sleeve shirt is included if only a jacket or coat is selected
             if (options[0] > 2) {

@@ -36,6 +36,7 @@ export const getInputLocation = async (location) => {
         }
     } catch (error) {
         console.error('Error fetching location');
+        console.error(error);
         return [0, 0];
     }
 };
@@ -53,6 +54,7 @@ export const getCityFromCoordinate = async (lat, lng) => {
         return city;
     } catch (error) {
         console.error('Error finding the City');
+        console.error(error);
         return 'Unknown Location';
     }
 };
