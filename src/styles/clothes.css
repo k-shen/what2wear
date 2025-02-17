@@ -1,8 +1,8 @@
 .clothes-container {
     gap: 12px;
     margin: 2rem;
-  }
-  
+}
+
 .clothes {
     display: inline-block;
     padding: 0.1rem 0.5rem;
@@ -12,9 +12,11 @@
     font-weight: bolder;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.3s, transform 0.2s;
+    transition:
+        background-color 0.3s,
+        transform 0.2s;
 }
-  
+
 .clothes:hover {
     background-color: #d0d0d0;
     transform: translateY(-2px);

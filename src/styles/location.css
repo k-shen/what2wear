@@ -17,7 +17,7 @@
 
 .input-button {
     padding: 8px;
-    background:  #b3cde4; 
+    background: #b3cde4;
     color: #001b2e;
     font-size: 12px;
     font-weight: 600;
@@ -27,6 +27,6 @@
 }
 
 .input-button:hover {
-    background: #85a0b8; 
+    background: #85a0b8;
     box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
 }
