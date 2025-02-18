@@ -2,7 +2,7 @@ import React, { Fragment, memo } from 'react';
 
 import ClothesFaceout from './ClothesFaceout';
 import { Clothes, TOPS, BOTTOMS, COMFORT, UNLAYERABLE_TOP_INDICIES } from './constants';
-import { min, maxWarmth } from '../service/utils.js';
+import { min, getWarmth } from '../service/utils.js';
 
 import '../styles/clothes.css';
 
@@ -15,25 +15,32 @@ type ClothesBlockProps = {
 
 const ClothesBlock = memo(
     ({ highTemperature, lowTemperature, feelsLikeTemperature }: ClothesBlockProps) => {
+        const minTemperature = min(feelsLikeTemperature, lowTemperature);
+        const differences = [
+            COMFORT - minTemperature,
+            COMFORT - minTemperature - 7,
+            COMFORT - minTemperature + 7
+        ]; // Calculate for suggestions
+
         const getTops = () => {
-            if (min(feelsLikeTemperature, lowTemperature) > 74 || highTemperature > 88) {
+            if (minTemperature > 74 || highTemperature > 88) {
                 return TOPS[0];
             }
 
-            const difference = COMFORT - min(feelsLikeTemperature, lowTemperature);
-            const differences = [difference, difference - 5, difference + 5];
+            const options = differences
+                .map((diff) => getOptions(diff))
+                .sort((a, b) => getWarmth(a) - getWarmth(b)); // Ensure goes by Reg - Cool - Warm
 
-            return differences.map((diff) => getOptions(diff).map((index) => TOPS[index]));
+            return [options[1], options[0], options[2]].map((option) =>
+                option.map((idx) => TOPS[idx])
+            );
         };
 
         const getLayers = (temperatureDifference) => {
             const possibleLayers: number[][] = [];
 
             const backtrack = (startIdx: number, currentIndices: number[], currentSum: number) => {
-                if (
-                    Math.abs(currentSum - temperatureDifference) <= 2 ||
-                    currentSum >= maxWarmth()
-                ) {
+                if (Math.abs(currentSum - temperatureDifference) <= 2) {
                     possibleLayers.push([...currentIndices]);
                 }
 
@@ -106,12 +113,9 @@ const ClothesBlock = memo(
         };
 
         const getBottoms = () => {
-            if (min(feelsLikeTemperature, lowTemperature) > 68 || highTemperature > 78) {
+            if (minTemperature > 68 || highTemperature > 78) {
                 return BOTTOMS[0];
             }
-
-            const difference = COMFORT - min(feelsLikeTemperature, lowTemperature);
-            const differences = [difference, difference - 5, difference + 5];
 
             const getBottoms = (temperatureDifference) => {
                 if (temperatureDifference < 10) return BOTTOMS[0];
@@ -139,7 +143,8 @@ const ClothesBlock = memo(
         );
 
         const topOptionsPanelCool =
-            JSON.stringify(topOptions[1]) !== JSON.stringify(topOptions[0]) ? (
+            JSON.stringify(topOptions[1]) !== JSON.stringify(topOptions[0]) &&
+            JSON.stringify(topOptions[1]) !== JSON.stringify(topOptions[2]) ? (
                 <div className="clothes-container">
                     <span>Something Cooler: </span>{' '}
                     {topOptions[1].map((clothes: Clothes, idx: number) => (

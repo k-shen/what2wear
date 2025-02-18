@@ -19,3 +19,12 @@ export const maxWarmth = () => {
 
     return sum;
 };
+
+export const getWarmth = (options) => {
+    let sum = 0;
+    for (let i = 0; i < options.length; i++) {
+        sum += TOPS[options[i]].warmth;
+    }
+
+    return sum;
+};
