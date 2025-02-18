@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/what2wear/static/css/main.0be33d26.css",
-    "main.js": "/what2wear/static/js/main.b8785c17.js",
+    "main.js": "/what2wear/static/js/main.2d188bb7.js",
     "static/media/refresh.svg": "/what2wear/static/media/refresh.a21fbc6b6c6a6cfd538c787e57174d7a.svg",
     "index.html": "/what2wear/index.html",
     "main.0be33d26.css.map": "/what2wear/static/css/main.0be33d26.css.map",
-    "main.b8785c17.js.map": "/what2wear/static/js/main.b8785c17.js.map"
+    "main.2d188bb7.js.map": "/what2wear/static/js/main.2d188bb7.js.map"
   },
   "entrypoints": [
     "static/css/main.0be33d26.css",
-    "static/js/main.b8785c17.js"
+    "static/js/main.2d188bb7.js"
   ]
 }
