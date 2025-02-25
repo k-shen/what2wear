@@ -24,9 +24,10 @@ const ClothesBlock = memo(
 
         const getTops = () => {
             if (minTemperature > 74 || highTemperature > 88) {
-                return TOPS[0];
+                return [[TOPS[0]], [TOPS[0]], [TOPS[0]]];
             }
 
+            console.log(differences);
             const options = differences
                 .map((diff) => getOptions(diff))
                 .sort((a, b) => getWarmth(a) - getWarmth(b)); // Ensure goes by Reg - Cool - Warm
@@ -50,6 +51,12 @@ const ClothesBlock = memo(
             };
 
             backtrack(0, [], 0);
+
+            console.log(temperatureDifference + '-' + possibleLayers);
+            if (possibleLayers.length == 0) {
+                return [];
+            }
+
             return possibleLayers[Math.floor(Math.random() * possibleLayers.length)].sort();
         };
 
@@ -113,11 +120,11 @@ const ClothesBlock = memo(
         };
 
         const getBottoms = () => {
-            if (minTemperature > 68 || highTemperature > 78) {
-                return BOTTOMS[0];
-            }
-
             const getBottoms = (temperatureDifference) => {
+                if (minTemperature > 68 || highTemperature > 78) {
+                    return BOTTOMS[0];
+                }
+
                 if (temperatureDifference < 10) return BOTTOMS[0];
                 if (temperatureDifference < 33) return BOTTOMS[1];
                 return BOTTOMS[2];
@@ -128,6 +135,10 @@ const ClothesBlock = memo(
 
         const topOptions = getTops();
         const bottomOptions = getBottoms();
+
+        console.log(topOptions[0]);
+        console.log(topOptions[1]);
+        console.log(topOptions[2]);
 
         const topOptionsPanel = (
             <div className="clothes-container">
@@ -143,6 +154,7 @@ const ClothesBlock = memo(
         );
 
         const topOptionsPanelCool =
+            topOptions[1].length !== 0 &&
             JSON.stringify(topOptions[1]) !== JSON.stringify(topOptions[0]) &&
             JSON.stringify(topOptions[1]) !== JSON.stringify(topOptions[2]) ? (
                 <div className="clothes-container">
@@ -158,6 +170,7 @@ const ClothesBlock = memo(
             ) : null;
 
         const topOptionsPanelWarm =
+            topOptions[2].length !== 0 &&
             JSON.stringify(topOptions[2]) !== JSON.stringify(topOptions[0]) ? (
                 <div className="clothes-container">
                     <span>Something Warmer: </span>{' '}

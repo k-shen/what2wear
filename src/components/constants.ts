@@ -25,4 +25,4 @@ export const BOTTOMS: Clothes[] = [
     { name: 'Heavy Pants', warmth: 8 }
 ];
 
-export const COMFORT = 78;
+export const COMFORT = 75;

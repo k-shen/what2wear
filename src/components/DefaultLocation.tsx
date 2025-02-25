@@ -25,8 +25,14 @@ const DefaultLocation = ({ longitude, latitude, onLocationDetermined }) => {
     }, [locationInfo, onLocationDetermined]);
 
     return (
-        <div className="p-4 bg-gray-100 rounded-xl">
-            {locationInfo ? <p>Default location: {locationInfo}</p> : <p>Loading location...</p>}
+        <div>
+            {locationInfo ? (
+                <p>
+                    Default location: <strong>{locationInfo}</strong>
+                </p>
+            ) : (
+                <p>Loading location...</p>
+            )}
         </div>
     );
 };

@@ -6,12 +6,25 @@ import ClothesBlock from './components/ClothesBlock';
 import { BASE_URL, OPENWEATHERMAP_ICON_URL_PREFIX } from './components/constants';
 import RefreshButton from './components/RefreshButton';
 
-import './styles/weather.css';
+import './styles/result.css';
 
 const Result = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const { weatherData, city } = location.state || {};
+    const goBack = () => {
+        navigate(BASE_URL);
+    };
+
+    if (!weatherData) {
+        return (
+            <div className="result">
+                <p>Sorry, do not have weather data for {city ? city : 'your city'}</p>
+                <Button onClick={goBack} text="Back" />
+            </div>
+        );
+    }
+
     const [inCelsius, setInCelsius] = useState(false);
     const [suggestionTrigger, setSuggestionTrigger] = useState(false);
 
@@ -22,10 +35,6 @@ const Result = () => {
     const lowTemperature = weatherData.main.temp_min;
     const highTemperature = weatherData.main.temp_max;
     const wind = weatherData.wind.speed;
-
-    const goBack = () => {
-        navigate(BASE_URL);
-    };
 
     const toFarenheit = (temperature: number) => {
         return Math.round((temperature * 9) / 5 + 32);
@@ -53,7 +62,7 @@ const Result = () => {
     };
 
     return (
-        <div className="weather">
+        <div className="result">
             {weatherData ? (
                 <div>
                     <h1>
@@ -63,6 +72,7 @@ const Result = () => {
                             <img
                                 src={OPENWEATHERMAP_ICON_URL_PREFIX + weatherIcon + '@2x.png'}
                                 alt={weatherCondition}
+                                className="icon"
                             />
                         ) : null}{' '}
                     </h1>
@@ -81,9 +91,7 @@ const Result = () => {
                         ) : null}
 
                         {getTemperature(feelsLikeTemperature) ? (
-                            <span>
-                                {' - '}Feels like: {getTemperature(feelsLikeTemperature)}
-                            </span>
+                            <span>Feels like: {getTemperature(feelsLikeTemperature)}</span>
                         ) : null}
 
                         <button onClick={() => setInCelsius(!inCelsius)} className="button-toggle">

@@ -18,11 +18,18 @@
 }
 
 .clothes:hover {
-    background-color: #d0d0d0;
+    background-color: #74a4f8;
     transform: translateY(-2px);
 }
 
 .clothes:active {
     background-color: #c0c0c0;
     transform: translateY(0);
+}
+
+@media (max-width: 600px) {
+    .clothes-container {
+        margin: 1rem;
+        font-size: smaller;
+    }
 }

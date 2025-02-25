@@ -18,7 +18,7 @@
 
 .button:focus {
     outline: none;
-    box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.5);
+    box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.5);
 }
 
 .refresh-button {
@@ -51,4 +51,12 @@
 }
 .image-button:hover .hover-text {
     opacity: 1; /* Show text when hovered */
+}
+
+@media (max-width: 600px) {
+    .button {
+        margin-top: 2rem;
+        padding: 6px 12px;
+        font-size: 14px;
+    }
 }

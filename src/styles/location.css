@@ -30,3 +30,11 @@
     background: #85a0b8;
     box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
 }
+
+@media (max-width: 768px) {
+    .input-container {
+        display: block;
+        align-items: center;
+        gap: 1rem;
+    }
+}
