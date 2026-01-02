@@ -1,7 +1,15 @@
-export const OPENCAGE_API_KEY = '4c8f8db32e2b4c388841d2e2a4e5ffb3';
-export const OPENWEATHERMAP_ICON_URL_PREFIX = 'https://openweathermap.org/img/wn/';
-export const W2W_BUTTON_TEXT = 'what 2 wear';
-export const BASE_URL = '/what2wear';
+export interface WeatherData {
+    weatherCondition?: string;
+    weatherDescription?: string;
+    weatherIcon?: string;
+    temperature: number;
+    feelsLikeTemperature: number;
+    lowTemperature: number;
+    highTemperature: number;
+    wind: number;
+    place?: string;
+    mode: string;
+}
 
 export interface Clothes {
     name: string;
@@ -24,5 +32,3 @@ export const BOTTOMS: Clothes[] = [
     { name: 'Light Pants', warmth: 5 },
     { name: 'Heavy Pants', warmth: 8 }
 ];
-
-export const COMFORT = 75;

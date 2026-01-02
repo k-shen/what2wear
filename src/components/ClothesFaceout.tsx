@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Clothes } from './constants';
+import { Clothes } from '../model/model';
 import '../styles/clothes.css';
 
 const ClothesFaceout = ({ name }: Clothes) => {

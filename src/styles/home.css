@@ -8,8 +8,8 @@
     justify-content: center;
     font-size: calc(10px + 2vmin);
     color: #b3cde4;
-    overflow: hidden; /* Prevents scrolling */
-    width: 100vw; /* Ensures it fits within the viewport */
+    overflow: hidden;
+    width: 100vw;
 }
 
 @media (max-width: 768px) {

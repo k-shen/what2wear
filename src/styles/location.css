@@ -4,6 +4,12 @@
     gap: 1rem;
 }
 
+.error-container {
+    display: flex;
+    align-items: center;
+    height: 1.25rem;
+}
+
 .input-location {
     display: flex;
     gap: 0.25rem; /* Space between input and button */

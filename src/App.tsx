@@ -1,8 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
-import { BASE_URL } from './components/constants';
 import Home from './Home';
+import { BASE_URL } from './model/constants';
 import Result from './Result';
 
 const App: React.FC = () => {

@@ -11,7 +11,7 @@ const DefaultLocation = ({ longitude, latitude, onLocationDetermined }) => {
                 const city = await getCityFromCoordinate(latitude, longitude);
                 setLocationInfo(city);
             } else {
-                setLocationInfo('Loading...');
+                setLocationInfo('---');
             }
         };
 
@@ -19,7 +19,7 @@ const DefaultLocation = ({ longitude, latitude, onLocationDetermined }) => {
     }, [longitude, latitude]);
 
     useEffect(() => {
-        if (locationInfo && locationInfo !== 'Loading...') {
+        if (locationInfo && locationInfo !== '---') {
             onLocationDetermined(locationInfo);
         }
     }, [locationInfo, onLocationDetermined]);

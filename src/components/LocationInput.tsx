@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+import ErrorMessage from './ErrorMessage';
 import { getInputLocation } from '../service/getLocation';
 import '../styles/location.css';
 
@@ -24,7 +25,7 @@ const LocationInput: React.FC<LocationInputProps> = ({ onLocationSelected }) => 
             const [latitude, longitude] = await getInputLocation(location);
 
             if (latitude === 0 && longitude === 0) {
-                setError('Error fetching location. Please try again later.');
+                setError("Can't fetch location... Geo API Access expired :(");
             } else if (latitude === -1 && longitude === -1) {
                 setError('Location not found. Please try again.');
             } else {
@@ -37,22 +38,23 @@ const LocationInput: React.FC<LocationInputProps> = ({ onLocationSelected }) => 
     };
 
     return (
-        <div className="input-container">
-            <p>Or enter city or ZIP code: </p>
-            <form onSubmit={handleLocationSubmit} className="input-location">
-                <input
-                    type="text"
-                    value={location}
-                    onChange={(e) => setLocation(e.target.value)}
-                    placeholder="Enter location..."
-                />
-                <button type="submit" className="input-button">
-                    Set Location
-                </button>
-            </form>
-
-            {error && <p>{error}</p>}
-        </div>
+        <>
+            <div className="input-container">
+                <p>Or enter city: </p>
+                <form onSubmit={handleLocationSubmit} className="input-location">
+                    <input
+                        type="text"
+                        value={location}
+                        onChange={(e) => setLocation(e.target.value)}
+                        placeholder="Enter location..."
+                    />
+                    <button type="submit" className="input-button">
+                        Set Location
+                    </button>
+                </form>
+            </div>
+            <div className="error-container">{<ErrorMessage message={error} />}</div>
+        </>
     );
 };
 

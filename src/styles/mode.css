@@ -1,0 +1,96 @@
+.mode-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    position: relative;
+}
+
+.mode-container p {
+    margin: 0;
+    white-space: nowrap;
+}
+
+/* Style the dropdown button */
+.mode-dropdown .dropdown-toggle {
+    padding: 8px;
+    font-weight: 600;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    background: #b3cde4;
+    color: #001b2e;
+}
+
+/* Hover state */
+.mode-dropdown .dropdown-toggle:hover,
+.mode-dropdown .dropdown-toggle:active,
+.mode-dropdown .dropdown-toggle:focus {
+    background: #85a0b8 !important;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+    border: none;
+}
+
+/* Style the dropdown menu */
+.mode-dropdown .dropdown-menu {
+    display: none;
+    padding: 0;
+    border: 1px solid #b3cde4;
+    border-radius: 5px;
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+    background-color: white;
+    margin-top: 4px;
+}
+
+.mode-dropdown .dropdown-menu.show {
+    display: block;
+}
+
+/* Style dropdown items */
+.mode-dropdown .dropdown-item {
+    padding: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #001b2e;
+    background-color: #b3cde4;
+    border: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+}
+
+/* Hover state for dropdown items */
+.mode-dropdown .dropdown-item:hover {
+    background: #b3cde4;
+    color: #001b2e;
+}
+
+/* Active/selected state */
+.mode-dropdown .dropdown-item:active {
+    background: #85a0b8;
+    color: #001b2e;
+}
+
+/* Custom caret styling */
+.mode-dropdown .dropdown-toggle::after {
+    border-top: 4px solid #001b2e;
+    border-right: 4px solid transparent;
+    border-left: 4px solid transparent;
+    margin-left: 8px;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .mode-container {
+        display: block;
+        margin-bottom: 1rem;
+        align-items: center;
+    }
+
+    .mode-container p {
+        margin-bottom: 0.5rem;
+    }
+}

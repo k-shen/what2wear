@@ -3,23 +3,37 @@ import { useLocation, useNavigate } from 'react-router-dom';
 
 import Button from './components/Button';
 import ClothesBlock from './components/ClothesBlock';
-import { BASE_URL, OPENWEATHERMAP_ICON_URL_PREFIX } from './components/constants';
 import RefreshButton from './components/RefreshButton';
+import { BASE_URL, OPENWEATHERMAP_ICON_URL_PREFIX } from './model/constants';
+import { WeatherData } from './model/model';
 
 import './styles/result.css';
 
 const Result = () => {
     const location = useLocation();
     const navigate = useNavigate();
-    const { weatherData, city } = location.state || {};
+    const data = location.state as WeatherData;
     const goBack = () => {
         navigate(BASE_URL);
     };
 
-    if (!weatherData) {
+    const completeData = (data) => {
+        if (
+            data.temperature == 'undefined' ||
+            data.lowTemperature == 'undefined' ||
+            data.highTemperature == 'undefined' ||
+            data.feelsLikeTemperature == 'undefined' ||
+            data.wind == 'undefined'
+        )
+            return false;
+
+        return true;
+    };
+
+    if (!completeData(data)) {
         return (
             <div className="result">
-                <p>Sorry, do not have weather data for {city ? city : 'your city'}</p>
+                <p>Sorry, do not have weather data for {data.place ? data.place : 'your city'}</p>
                 <Button onClick={goBack} text="Back" />
             </div>
         );
@@ -28,13 +42,14 @@ const Result = () => {
     const [inCelsius, setInCelsius] = useState(false);
     const [suggestionTrigger, setSuggestionTrigger] = useState(false);
 
-    const weatherCondition = weatherData?.weather[0].main;
-    const weatherIcon = weatherData?.weather[0].icon;
-    const temperature = weatherData.main.temp;
-    const feelsLikeTemperature = weatherData.main.feels_like;
-    const lowTemperature = weatherData.main.temp_min;
-    const highTemperature = weatherData.main.temp_max;
-    const wind = weatherData.wind.speed;
+    const weatherCondition = data.weatherCondition;
+    const weatherDescription = data.weatherDescription;
+    const weatherIcon = data.weatherIcon;
+    const temperature = data.temperature;
+    const feelsLikeTemperature = data.feelsLikeTemperature;
+    const lowTemperature = data.lowTemperature;
+    const highTemperature = data.highTemperature;
+    const wind = data.wind;
 
     const toFarenheit = (temperature: number) => {
         return Math.round((temperature * 9) / 5 + 32);
@@ -63,11 +78,11 @@ const Result = () => {
 
     return (
         <div className="result">
-            {weatherData ? (
+            {completeData(data) ? (
                 <div>
                     <h1>
                         {' '}
-                        {city}{' '}
+                        {data.place}{' '}
                         {weatherIcon ? (
                             <img
                                 src={OPENWEATHERMAP_ICON_URL_PREFIX + weatherIcon + '@2x.png'}
@@ -90,8 +105,11 @@ const Result = () => {
                             </span>
                         ) : null}
 
-                        {getTemperature(feelsLikeTemperature) ? (
-                            <span>Feels like: {getTemperature(feelsLikeTemperature)}</span>
+                        {feelsLikeTemperature && getTemperature(feelsLikeTemperature) ? (
+                            <span>
+                                {data.mode == 'current' ? '' : '(Avg)'} Feels like:{' '}
+                                {getTemperature(feelsLikeTemperature)}
+                            </span>
                         ) : null}
 
                         <button onClick={() => setInCelsius(!inCelsius)} className="button-toggle">
@@ -99,9 +117,9 @@ const Result = () => {
                         </button>
                     </p>
 
-                    {getWind(wind) ? <p>Wind: {getWind(wind)}</p> : null}
+                    {getWind(wind) ? <p>Avg Wind: {getWind(wind)}</p> : null}
 
-                    <p>Condition: {titleCase(weatherData.weather[0].description)}</p>
+                    {weatherCondition && <p>Condition: {titleCase(weatherDescription)}</p>}
                 </div>
             ) : (
                 <p>No weather data available</p>
@@ -111,7 +129,8 @@ const Result = () => {
                 <ClothesBlock
                     highTemperature={toFarenheit(highTemperature)}
                     lowTemperature={toFarenheit(lowTemperature)}
-                    feelsLikeTemperature={toFarenheit(feelsLikeTemperature)}
+                    midTemperature={toFarenheit(feelsLikeTemperature)}
+                    mode={data.mode}
                     suggestionTrigger={suggestionTrigger}
                 />
             </div>

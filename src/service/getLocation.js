@@ -1,4 +1,4 @@
-import { OPENCAGE_API_KEY } from '../components/constants';
+import { OPENCAGE_API_KEY } from '../model/constants';
 
 export const getDefaultLocation = async () => {
     return new Promise((resolve, reject) => {
@@ -27,9 +27,12 @@ export const getInputLocation = async (location) => {
         );
 
         const data = await response.json();
+        console.log(data);
         if (data.results.length > 0) {
             const { lat, lng } = data.results[0].geometry;
             return [lat, lng];
+        } else if (data.status.code == 401) {
+            return [0, 0];
         } else {
             console.error('Location not found');
             return [-1, -1];
@@ -47,11 +50,34 @@ export const getCityFromCoordinate = async (lat, lng) => {
             `https://api.opencagedata.com/geocode/v1/json?q=${lat}+${lng}&key=${OPENCAGE_API_KEY}`
         );
         const data = await response.json();
+
+        console.log(data);
+
         const city =
             data.results[0]?.components?.city ||
             data.results[0]?.components?.town ||
-            'Unknown Location';
-        return city;
+            data.results[0]?.components?.village ||
+            'Current Location';
+
+        let place;
+
+        if (data.results[0]?.components.country == 'United States') {
+            place =
+                city != 'Current Location'
+                    ? city +
+                      ', ' +
+                      data.results[0].components.state_code +
+                      ', ' +
+                      data.results[0].components.country
+                    : 'Current Location';
+        } else {
+            place =
+                city != 'Current Location'
+                    ? city + ', ' + data.results[0].components.country
+                    : 'Current Location';
+        }
+
+        return place;
     } catch (error) {
         console.error('Error finding the City');
         console.error(error);
