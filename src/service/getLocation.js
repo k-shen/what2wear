@@ -27,7 +27,8 @@ export const getInputLocation = async (location) => {
         );
 
         const data = await response.json();
-        console.log(data);
+        console.log('Geo data', data);
+
         if (data.results.length > 0) {
             const { lat, lng } = data.results[0].geometry;
             return [lat, lng];
@@ -51,12 +52,13 @@ export const getCityFromCoordinate = async (lat, lng) => {
         );
         const data = await response.json();
 
-        console.log(data);
+        console.log('City data', data);
 
         const city =
             data.results[0]?.components?.city ||
             data.results[0]?.components?.town ||
             data.results[0]?.components?.village ||
+            data.results[0]?.components?.postcode ||
             'Current Location';
 
         let place;

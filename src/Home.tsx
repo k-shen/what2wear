@@ -110,7 +110,7 @@ function Home() {
 
             const place = await getCityFromCoordinate(location.latitude, location.longitude);
             const data = getWeatherData(response, mode, place);
-            console.log(data);
+            console.log('Extracted weather', data);
 
             navigate(BASE_URL + '/result', {
                 state: data

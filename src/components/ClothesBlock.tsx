@@ -3,7 +3,7 @@ import React, { Fragment, memo } from 'react';
 import ClothesFaceout from './ClothesFaceout';
 import { COMFORT } from '../model/constants';
 import { Clothes, TOPS, BOTTOMS, UNLAYERABLE_TOP_INDICIES } from '../model/model';
-import { getWarmth, min } from '../service/utils.js';
+import { getWarmth } from '../service/utils.js';
 
 import '../styles/clothes.css';
 
@@ -18,23 +18,22 @@ type ClothesBlockProps = {
 const ClothesBlock = memo(
     ({ highTemperature, lowTemperature, midTemperature, mode }: ClothesBlockProps) => {
         // console.log('temps', midTemperature, lowTemperature, highTemperature);
-        let differences;
+        let cooler;
+        let warmer;
+        let regular;
 
+        // Calculate for suggestions;
         if (mode == 'current') {
-            differences = [
-                COMFORT - min(lowTemperature, midTemperature),
-                COMFORT - lowTemperature + 7,
-                COMFORT - highTemperature - 7
-            ]; // Calculate for suggestions;
+            regular = midTemperature;
+            cooler = midTemperature - 5;
+            warmer = midTemperature + 5;
         } else {
-            differences = [
-                COMFORT - midTemperature,
-                COMFORT - highTemperature,
-                COMFORT - lowTemperature
-            ]; // Calculate for suggestions;
+            regular = midTemperature;
+            cooler = lowTemperature;
+            warmer = highTemperature;
         }
 
-        // console.log('diffs', differences);
+        const differences = [COMFORT - regular, COMFORT - cooler, COMFORT - warmer];
 
         const getTops = () => {
             if (lowTemperature > 74 || highTemperature > 88) {
@@ -42,10 +41,10 @@ const ClothesBlock = memo(
             }
 
             const options = differences
-                .map((diff) => getOptions(diff))
+                .map((diff) => getTopOptions(diff))
                 .sort((a, b) => getWarmth(a) - getWarmth(b)); // Ensure goes by Reg - Cool - Warm
 
-            return [options[1], options[0], options[2]].map((option) =>
+            return [options[1], options[2], options[0]].map((option) =>
                 option.map((idx) => TOPS[idx])
             );
         };
@@ -76,7 +75,7 @@ const ClothesBlock = memo(
             return possibleLayers[Math.floor(Math.random() * possibleLayers.length)].sort();
         };
 
-        const getOptions = (temperatureDifference) => {
+        const getTopOptions = (temperatureDifference) => {
             const removeUnlayerables = (options: number[]) => {
                 const unlayerableItems = options.filter((num) =>
                     UNLAYERABLE_TOP_INDICIES.includes(num)
@@ -136,9 +135,13 @@ const ClothesBlock = memo(
         };
 
         const getBottoms = () => {
-            const getBottoms = (temperatureDifference) => {
-                if (mode == 'current' && (lowTemperature > 68 || highTemperature >= 78)) {
+            const getBottomsOptions = (temperatureDifference) => {
+                if (mode == 'current' && (lowTemperature > 68 || midTemperature >= 78)) {
                     return BOTTOMS[0];
+                }
+
+                if (mode != 'current' && lowTemperature < 60 && temperatureDifference < 10) {
+                    return BOTTOMS[1];
                 }
 
                 if (temperatureDifference < 10) return BOTTOMS[0];
@@ -146,7 +149,11 @@ const ClothesBlock = memo(
                 return BOTTOMS[2];
             };
 
-            return differences.map((diff) => getBottoms(diff));
+            const options = differences
+                .map((diff) => getBottomsOptions(diff))
+                .sort((a, b) => getWarmth(a) - getWarmth(b)); // Ensure goes by Reg - Cool - Warm
+
+            return [options[1], options[0], options[2]];
         };
 
         const topOptions = getTops();
@@ -167,6 +174,7 @@ const ClothesBlock = memo(
             </div>
         );
 
+        // Dress Warmer for cooler weathers
         const topOptionsPanelCool =
             topOptions[1].length !== 0 &&
             JSON.stringify(topOptions[1]) !== JSON.stringify(topOptions[0]) &&
@@ -174,7 +182,7 @@ const ClothesBlock = memo(
                 <div className="clothes-container">
                     <div className="clothes-header">
                         <span>
-                            {mode == 'current' ? 'To Dress Cooler' : 'For warmer weather'}:{' '}
+                            {mode == 'current' ? 'To dress warmer' : 'For cooler weather'}:{' '}
                         </span>{' '}
                     </div>
                     {topOptions[1].map((clothes: Clothes, idx: number) => (
@@ -187,13 +195,15 @@ const ClothesBlock = memo(
                 </div>
             ) : null;
 
+        // Dress Cooler for warmer weathers
         const topOptionsPanelWarm =
             topOptions[2].length !== 0 &&
-            JSON.stringify(topOptions[2]) !== JSON.stringify(topOptions[0]) ? (
+            JSON.stringify(topOptions[2]) !== JSON.stringify(topOptions[0]) &&
+            JSON.stringify(topOptions[1]) !== JSON.stringify(topOptions[2]) ? (
                 <div className="clothes-container">
                     <div className="clothes-header">
                         <span>
-                            {mode == 'current' ? 'To Dress Warmer' : 'For colder weather'}:{' '}
+                            {mode == 'current' ? 'To dress cooler ' : 'For warmer weather'}:{' '}
                         </span>{' '}
                     </div>
                     {topOptions[2].map((clothes: Clothes, idx: number) => (
