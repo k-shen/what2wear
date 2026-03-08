@@ -1,46 +1,101 @@
-# Getting Started with Create React App
+# what2wear 👕🌤️
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A smart weather-based clothing recommendation app that suggests what to wear based on current weather conditions or forecasts.
+
+## Features
+
+- **Real-time Weather Data**: Get current weather conditions for your location
+- **Weather Forecasts**: View 3-hour, 9-hour, 3-day, or 5-day forecasts
+- **Smart Clothing Suggestions**: Receive personalized outfit recommendations based on temperature, wind, and weather conditions
+- **Location Support**:
+
+  - Automatic geolocation detection
+  - Manual city search
+- **Temperature Units**: Toggle between Celsius and Fahrenheit
+- **Layering Logic**: Intelligent clothing layering suggestions for varying temperatures
+- **Multiple Scenarios**: Get suggestions for dressing warmer or cooler based on forecast ranges
+
+## Tech Stack
+
+- **Frontend**: React 19 with TypeScript
+- **Routing**: React Router DOM
+- **Styling**: Bootstrap 5 + Custom CSS
+- **APIs**:
+  - OpenWeatherMap API (weather data)
+  - OpenCage Geocoding API (location services)
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js (v14 or higher)
+- npm or yarn
+
+### Installation
+
+1. Clone the repository:
+
+    ```bash
+    git clone https://github.com/k-shen/what2wear.git
+    cd what2wear
+    ```
+
+2. Install dependencies:
+
+    ```bash
+    npm install
+    ```
+
+3. Start the development server:
+
+    ```bash
+    npm start
+    ```
+
+The app will open at [http://localhost:3000](http://localhost:3000)
 
 ## Available Scripts
 
-In the project directory, you can run:
+- `npm start` - Run the app in development mode
+- `npm run build` - Build the app for production
+- `npm run format` - Format code with ESLint and Prettier
+- `npm run deploy` - Deploy to GitHub Pages
 
-### `npm start`
+## How It Works
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+1. **Select Forecast Mode**: Choose between current weather or various forecast durations
+2. **Set Location**: Use your current location or search for a city
+3. **Get Recommendations**: The app analyzes temperature, feels-like temperature, and wind conditions
+4. **View Suggestions**: See clothing recommendations including:
+   - Tops (short sleeve, long sleeve, hoodie, jacket, coat)
+   - Bottoms (shorts, light pants, heavy pants)
+   - Layering combinations for optimal comfort
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## Clothing Algorithm
 
-### `npm test`
+The app uses a warmth-based algorithm that:
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Calculates temperature differences from a comfort baseline (75°F)
+- Suggests appropriate clothing layers based on the difference
+- Provides alternative options for warmer/cooler preferences
+- Considers wind speed and feels-like temperature
+- Handles forecast ranges with multiple scenarios
 
-### `npm run build`
+## Deployment
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+The app is deployed on GitHub Pages: [https://k-shen.github.io/what2wear](https://k-shen.github.io/what2wear)
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+To deploy your own version:
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```bash
+npm run deploy
+```
 
-### `npm run eject`
+## License
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+This project is private and not licensed for public use.
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+## Acknowledgments
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+- Weather data provided by [OpenWeatherMap](https://openweathermap.org/)
+- Geocoding services by [OpenCage](https://opencagedata.com/)
