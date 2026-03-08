@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 import Button from './components/Button';
@@ -13,17 +13,30 @@ const Result = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const data = location.state as WeatherData;
+    const [inCelsius, setInCelsius] = useState(false);
+    const [suggestionTrigger, setSuggestionTrigger] = useState(false);
+
     const goBack = () => {
         navigate(BASE_URL);
     };
 
+    useEffect(() => {
+        if (!data) {
+            goBack();
+        }
+    }, []);
+
+    if (!data) {
+        return null;
+    }
+
     const completeData = (data) => {
         if (
-            data.temperature == 'undefined' ||
-            data.lowTemperature == 'undefined' ||
-            data.highTemperature == 'undefined' ||
-            data.feelsLikeTemperature == 'undefined' ||
-            data.wind == 'undefined'
+            data.temperature === undefined ||
+            data.lowTemperature === undefined ||
+            data.highTemperature === undefined ||
+            data.feelsLikeTemperature === undefined ||
+            data.wind === undefined
         )
             return false;
 
@@ -38,9 +51,6 @@ const Result = () => {
             </div>
         );
     }
-
-    const [inCelsius, setInCelsius] = useState(false);
-    const [suggestionTrigger, setSuggestionTrigger] = useState(false);
 
     const weatherCondition = data.weatherCondition;
     const weatherDescription = data.weatherDescription;
@@ -78,52 +88,47 @@ const Result = () => {
 
     return (
         <div className="result">
-            {completeData(data) ? (
-                <div>
-                    <h1>
-                        {' '}
-                        {data.place}{' '}
-                        {weatherIcon ? (
-                            <img
-                                src={OPENWEATHERMAP_ICON_URL_PREFIX + weatherIcon + '@2x.png'}
-                                alt={weatherCondition}
-                                className="icon"
-                            />
-                        ) : null}{' '}
-                    </h1>
-                    <p className="info">
-                        {getTemperature(temperature) ? (
-                            <span>
-                                Currently: {getTemperature(temperature)} {''}
-                            </span>
-                        ) : null}
+            <div>
+                <h1>
+                    {' '}
+                    {data.place}{' '}
+                    {weatherIcon ? (
+                        <img
+                            src={OPENWEATHERMAP_ICON_URL_PREFIX + weatherIcon + '@2x.png'}
+                            alt={weatherCondition}
+                            className="icon"
+                        />
+                    ) : null}{' '}
+                </h1>
+                <p className="info">
+                    {getTemperature(temperature) ? (
+                        <span>
+                            Currently: {getTemperature(temperature)} {''}
+                        </span>
+                    ) : null}
 
-                        {getTemperature(lowTemperature) && getTemperature(highTemperature) ? (
-                            <span>
-                                ({getTemperature(lowTemperature)} ~{' '}
-                                {getTemperature(highTemperature)})
-                            </span>
-                        ) : null}
+                    {getTemperature(lowTemperature) && getTemperature(highTemperature) ? (
+                        <span>
+                            ({getTemperature(lowTemperature)} ~ {getTemperature(highTemperature)})
+                        </span>
+                    ) : null}
 
-                        {feelsLikeTemperature && getTemperature(feelsLikeTemperature) ? (
-                            <span>
-                                {data.mode == 'current' ? '' : '(Avg)'} Feels like:{' '}
-                                {getTemperature(feelsLikeTemperature)}
-                            </span>
-                        ) : null}
+                    {feelsLikeTemperature && getTemperature(feelsLikeTemperature) ? (
+                        <span>
+                            {data.mode === 'current' ? '' : '(Avg)'} Feels like:{' '}
+                            {getTemperature(feelsLikeTemperature)}
+                        </span>
+                    ) : null}
 
-                        <button onClick={() => setInCelsius(!inCelsius)} className="button-toggle">
-                            to {inCelsius ? '°F' : '°C'}
-                        </button>
-                    </p>
+                    <button onClick={() => setInCelsius(!inCelsius)} className="button-toggle">
+                        to {inCelsius ? '°F' : '°C'}
+                    </button>
+                </p>
 
-                    {getWind(wind) ? <p>Avg Wind: {getWind(wind)}</p> : null}
+                {getWind(wind) ? <p>Avg Wind: {getWind(wind)}</p> : null}
 
-                    {weatherCondition && <p>Condition: {titleCase(weatherDescription)}</p>}
-                </div>
-            ) : (
-                <p>No weather data available</p>
-            )}
+                {weatherCondition && <p>Condition: {titleCase(weatherDescription)}</p>}
+            </div>
 
             <div className="clothes-content">
                 <ClothesBlock

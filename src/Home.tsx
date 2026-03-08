@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import Button from './components/Button';
@@ -26,7 +26,7 @@ function Home() {
 
     const getWeatherData = (response, mode, place) => {
         let data;
-        if (mode == 'current') {
+        if (mode === 'current') {
             data = {
                 weatherCondition: response.weather[0].main,
                 weatherDescription: response.weather[0].description,
@@ -39,13 +39,13 @@ function Home() {
                 place: place,
                 mode: mode
             };
-        } else if (mode == '3hr') {
+        } else if (mode === '3hr') {
             data = extractXHourData(response, 3, place);
-        } else if (mode == '9hr') {
+        } else if (mode === '9hr') {
             data = extractXHourData(response, 9, place);
-        } else if (mode == '3day') {
+        } else if (mode === '3day') {
             data = extractXHourData(response, 72, place);
-        } else if (mode == '5day') {
+        } else if (mode === '5day') {
             data = extractXHourData(response, 120, place);
         }
 
@@ -102,7 +102,7 @@ function Home() {
 
         try {
             let response;
-            if (mode == 'current') {
+            if (mode === 'current') {
                 response = await getCurrentWeather(location.latitude, location.longitude);
             } else {
                 response = await getForecastWeather(location.latitude, location.longitude);
@@ -121,9 +121,9 @@ function Home() {
         }
     };
 
-    const updateButtonText = (location: string) => {
-        if (!inputLocation) setMainButtonText(`${W2W_BUTTON_TEXT} for ${location}`);
-    };
+    const updateButtonText = useCallback((location: string) => {
+        setMainButtonText(`${W2W_BUTTON_TEXT} for ${location}`);
+    }, []);
 
     return (
         <div className="home">

@@ -23,7 +23,7 @@ const ClothesBlock = memo(
         let regular;
 
         // Calculate for suggestions;
-        if (mode == 'current') {
+        if (mode === 'current') {
             regular = midTemperature;
             cooler = midTemperature - 5;
             warmer = midTemperature + 5;
@@ -68,7 +68,7 @@ const ClothesBlock = memo(
 
             backtrack(0, [], 0);
 
-            if (possibleLayers.length == 0) {
+            if (possibleLayers.length === 0) {
                 return [];
             }
 
@@ -136,11 +136,11 @@ const ClothesBlock = memo(
 
         const getBottoms = () => {
             const getBottomsOptions = (temperatureDifference) => {
-                if (mode == 'current' && (lowTemperature > 68 || midTemperature >= 78)) {
+                if (mode === 'current' && (lowTemperature > 68 || midTemperature >= 78)) {
                     return BOTTOMS[0];
                 }
 
-                if (mode != 'current' && lowTemperature < 60 && temperatureDifference < 10) {
+                if (mode !== 'current' && lowTemperature < 60 && temperatureDifference < 10) {
                     return BOTTOMS[1];
                 }
 
@@ -182,7 +182,7 @@ const ClothesBlock = memo(
                 <div className="clothes-container">
                     <div className="clothes-header">
                         <span>
-                            {mode == 'current' ? 'To dress warmer' : 'For cooler weather'}:{' '}
+                            {mode === 'current' ? 'To dress warmer' : 'For cooler weather'}:{' '}
                         </span>{' '}
                     </div>
                     {topOptions[1].map((clothes: Clothes, idx: number) => (
@@ -203,7 +203,7 @@ const ClothesBlock = memo(
                 <div className="clothes-container">
                     <div className="clothes-header">
                         <span>
-                            {mode == 'current' ? 'To dress cooler ' : 'For warmer weather'}:{' '}
+                            {mode === 'current' ? 'To dress cooler ' : 'For warmer weather'}:{' '}
                         </span>{' '}
                     </div>
                     {topOptions[2].map((clothes: Clothes, idx: number) => (

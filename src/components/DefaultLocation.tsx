@@ -2,7 +2,13 @@ import React, { useEffect, useState } from 'react';
 
 import { getCityFromCoordinate } from '../service/getLocation';
 
-const DefaultLocation = ({ longitude, latitude, onLocationDetermined }) => {
+interface DefaultLocationProps {
+    longitude: number | null;
+    latitude: number | null;
+    onLocationDetermined: (location: string) => void;
+}
+
+const DefaultLocation = ({ longitude, latitude, onLocationDetermined }: DefaultLocationProps) => {
     const [locationInfo, setLocationInfo] = useState<string>();
 
     useEffect(() => {

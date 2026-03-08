@@ -1,4 +1,8 @@
-const ErrorMessage = ({ message }) => {
+interface ErrorMessageProps {
+    message: string;
+}
+
+const ErrorMessage = ({ message }: ErrorMessageProps) => {
     return <p>{message}</p>;
 };
 
